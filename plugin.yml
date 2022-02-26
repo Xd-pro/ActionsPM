@@ -1,0 +1,17 @@
+---
+name: ActionsPM
+version: 0.0.1
+main: ActionsPM\ActionsPM\Actions
+api: 4.2.0
+src-namespace-prefix: ActionsPM\ActionsPM
+
+commands:
+  trigger:
+    description: Run an action
+    permission: actionspm.command.trigger
+
+permissions:
+  actionspm.command.trigger:
+    description: Allow the running of actions by command
+    default: op
+...
