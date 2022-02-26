@@ -4,7 +4,7 @@ A pocketmine plugin that allows other plugins to ask eachother to do things to a
 # The problem
 Bob wants to create an NPC that opens a shop UI. He has an NPC plugin and a shop UI plugin. The normal way of going about this would be setting up the NPC to run the shop command on behalf of the player. This works, but what if the player didn't have permission to open the shop, but should still be able to use it through the NPC. Since PocketMine doesn't allow bypassing permissions on behalf of other players, there would be no way to do this.
 
-# The soloution
+# The solution
 ActionsPM allows Bob to open the shop UI without having to deal with commands and permissions. ActionsPM is basically just a registry of functions that can be executed on players. So instead of the NPC running a command, it triggers and action on Bob that opens the UI.
 
 # Config actions
