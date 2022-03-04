@@ -6,6 +6,8 @@ namespace ActionsPM\ActionsPM;
 
 use ActionsPM\ActionsPM\commands\Trigger;
 use Closure;
+use dktapps\pmforms\MenuForm;
+use dktapps\pmforms\MenuOption;
 use Exception;
 use pocketmine\player\Player;
 use pocketmine\plugin\PluginBase;
@@ -74,6 +76,27 @@ class Actions extends PluginBase {
     /** @return ?Closure */
     public static function get(string $namespace, string $name) {
         return self::$namespaces[$namespace][$name] ?? null;
+    }
+
+    public static function selectAction(Player $player, Closure $onComplete, Closure $onClose = null): void {
+        if ($onClose === null) {
+            $onClose = function(Player $player): void {};
+        }
+        $namespaces = self::getNamespaces();
+        $form = new MenuForm("Action picker", "Select a namespace", array_map(function(string $item) {
+            return new MenuOption($item);
+        }, $namespaces), function(Player $player, int $selection) use ($namespaces, $onComplete, $onClose): void {
+            $actions = array_keys(self::getNamespaceActions($namespaces[$selection]));
+            $namespace = $namespaces[$selection];
+            $form = new MenuForm("Action picker", "Select an action", array_map(function(string $item) {
+                return new MenuOption($item);
+            }, $actions), function(Player $player, int $selection) use ($actions, $namespace, $onComplete): void {
+                $action = $actions[$selection];
+                $onComplete($namespace, $action);
+            }, $onClose);
+            $player->sendForm($form);
+        }, $onClose);
+        $player->sendForm($form);
     }
 
 }

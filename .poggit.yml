@@ -5,4 +5,6 @@ branches:
 projects:
   ActionsPM:
     path: ""
+    libs:
+      - src: dktapps-pm-pl/pmforms/pmforms
 ...

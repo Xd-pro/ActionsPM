@@ -62,6 +62,9 @@ Get a list of all actions in a certian namespace.
 ### `Actions::get(string $namespace, string $name): ?Closure`
 Get the closure of an action so that you can trigger it.
 
+### `Actions::selectAction(Player $player, Closure /* function(string $namespace, string $name): void */ $onComplete, Closure /* function(Player $player): void */ $onClose = null): void`
+Use a form to pick an action.
+
 ## Examples
 ### Triggering an action: 
 ```php
@@ -73,6 +76,14 @@ if (Actions::get("namepspace", "action") !== null) {
 ```php
 Actions::register("namespace", "action", function(Player $player) {
     // do whatever you want to the player
+});
+```
+### Using the action picker:
+```php
+Actions::selectAction($sender, function(string $namespace, string $action) use ($sender) {
+  $sender->sendMessage("Picked $namespace:$action");
+}, function(Player $player) use ($sender): void {
+  $sender->sendMessage("Closed");
 });
 ```
 

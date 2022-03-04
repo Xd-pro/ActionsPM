@@ -13,6 +13,15 @@ class Trigger implements CommandExecutor {
 
     public function onCommand(CommandSender $sender, Command $command, string $label, array $args): bool
     {
+
+        if ($sender instanceof Player) {
+            Actions::selectAction($sender, function(string $namespace, string $action) use ($sender) {
+                $sender->sendMessage("Picked $namespace:$action");
+            }, function(Player $player) use ($sender): void {
+                $sender->sendMessage("Closed");
+            });
+        }
+        return true;
         $player = null;
         if (!isset($args[1])) {
             if ($sender instanceof Player) {
