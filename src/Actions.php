@@ -19,31 +19,7 @@ class Actions extends PluginBase {
     /** @var array[] $namespaces */
     private static array $namespaces = [];
 
-    private Config $builtins;
-
     public function onEnable(): void {
-        $this->builtins = new Config($this->getDataFolder() . "builtins.yml", Config::YAML, [
-            "hello_world" => [
-                "type" => "message",
-                "message" => "Hello World!"
-            ],
-            "two_hello_worlds" => [
-                "type" => "multiple",
-                "actions" => [
-                    ["namespace" => "actionspm", "action" => "hello_world"],
-                    ["namespace" => "actionspm", "action" => "hello_world"],
-                ]
-            ],
-            "sample_tp" => [
-                "type" => "teleport",
-                "x" => 0,
-                "y" => 64,
-                "z" => 0,
-                "world" => "world",
-                "yaw" => 0,
-                "pitch" => 0
-            ]
-        ]);
         $this->getCommand("trigger")->{"setExecutor"}(new Trigger());
         self::register("actionspm", "say", new Say());
         self::register("actionspm", "teleport", new Teleport());
