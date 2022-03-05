@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ActionsPM\ActionsPM;
+namespace XdPro\ActionsPM;
 
-use ActionsPM\ActionsPM\commands\Trigger;
+use XdPro\ActionsPM\commands\Trigger;
 use Closure;
 use dktapps\pmforms\MenuForm;
 use dktapps\pmforms\MenuOption;

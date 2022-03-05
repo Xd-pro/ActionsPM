@@ -1,8 +1,8 @@
 <?php
 
-namespace ActionsPM\ActionsPM\commands;
+namespace XdPro\ActionsPM\commands;
 
-use ActionsPM\ActionsPM\Actions;
+use XdPro\ActionsPM\Actions;
 use pocketmine\command\Command;
 use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;

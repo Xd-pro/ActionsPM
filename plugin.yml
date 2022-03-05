@@ -1,9 +1,9 @@
 ---
 name: ActionsPM
 version: 0.0.1
-main: ActionsPM\ActionsPM\Actions
+main: XdPro\ActionsPM\Actions
 api: 4.2.0
-src-namespace-prefix: ActionsPM\ActionsPM
+src-namespace-prefix: XdPro\ActionsPM
 
 commands:
   trigger:

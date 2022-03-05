@@ -1,6 +1,6 @@
 <?php
 
-namespace ActionsPM\ActionsPM;
+namespace XdPro\ActionsPM;
 
 use Exception;
 use pocketmine\player\Player;
