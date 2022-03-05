@@ -44,6 +44,7 @@ class Teleport extends Action {
                 } catch (Exception $e) {
                     $player->sendMessage("Please enter valid coordinates");
                     $onClose($player);
+                    return;
                 }
                 $world = $worlds[$worldNum + 1];
                 $onComplete([new Location($x, $y, $z, $world, $yaw, $pitch)]);

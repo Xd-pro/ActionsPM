@@ -44,8 +44,6 @@ class Actions extends PluginBase {
                 "pitch" => 0
             ]
         ]);
-        //$b = new Builtins();
-        //$b->register($this->builtins->getAll());
         $this->getCommand("trigger")->{"setExecutor"}(new Trigger());
         self::register("actionspm", "say", new Say());
         self::register("actionspm", "teleport", new Teleport());
