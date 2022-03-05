@@ -8,39 +8,24 @@ use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\Server;
+use XdPro\ActionsPM\Action;
 
 class Trigger implements CommandExecutor {
 
     public function onCommand(CommandSender $sender, Command $command, string $label, array $args): bool
     {
-        $player = null;
-        if (!isset($args[1])) {
-            if ($sender instanceof Player) {
-                $sender->sendMessage("Usage: /trigger <namespace> <action> [player]");
-                return false;
-            } else {
-                $sender->sendMessage("Usage: /trigger <namespace> <action> <player>");
-                return false;
+        if ($sender instanceof Player) {
+            $player = $sender;
+            if (isset($args[0])) {
+                $player = Server::getInstance()->getPlayerByPrefix($args[0]);
             }
-        }
-        if (isset($args[2])) {
-            $player = Server::getInstance()->getPlayerByPrefix($args[2]);
+            Actions::selectAction($sender, function(Action $action, array $params) use ($player) {
+                $action->execute($player, $params);
+            });
         } else {
-            if ($sender instanceof Player) {
-                $player = $sender;
-            } else {
-                $sender->sendMessage("Usage: /trigger <namespace> <action> <player>");
-                return false;
-            }
+            $sender->sendMessage("This command is only usable in-game");;
         }
-        if ($player === null) {
-            $sender->sendMessage("Player not found");
-            return false;
-        }
-
-        if (Actions::get($args[0], $args[1]) !== null) {
-            Actions::get($args[0], $args[1])($player);
-        }
+        $player = null;
         return true;
     }
 

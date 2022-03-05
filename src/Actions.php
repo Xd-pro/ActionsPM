@@ -8,11 +8,11 @@ use XdPro\ActionsPM\commands\Trigger;
 use Closure;
 use dktapps\pmforms\MenuForm;
 use dktapps\pmforms\MenuOption;
-use Exception;
 use pocketmine\player\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
-use pocketmine\utils\Utils;
+use XdPro\ActionsPM\builtin\Say;
+use XdPro\ActionsPM\builtin\Teleport;
 
 class Actions extends PluginBase {
 
@@ -44,9 +44,11 @@ class Actions extends PluginBase {
                 "pitch" => 0
             ]
         ]);
-        $b = new Builtins();
-        $b->register($this->builtins->getAll());
+        //$b = new Builtins();
+        //$b->register($this->builtins->getAll());
         $this->getCommand("trigger")->{"setExecutor"}(new Trigger());
+        self::register("actionspm", "say", new Say());
+        self::register("actionspm", "teleport", new Teleport());
     }
 
     /**
@@ -63,17 +65,18 @@ class Actions extends PluginBase {
         return array_keys(self::$namespaces);
     }
 
-    /** @return Closure[] */
+    /** @return Action[] */
     public static function getNamespaceActions(string $namespace): array {
         return self::$namespaces[$namespace];
     }
 
-    public static function register(string $namespace, string $name, Closure $action): void {
+    public static function register(string $namespace, string $name, Action $action): void {
+
         if (!isset(self::$namespaces[$namespace])) self::$namespaces[$namespace] = [];
         self::$namespaces[$namespace][$name] = $action;
     }
 
-    /** @return ?Closure */
+    /** @return ?Action */
     public static function get(string $namespace, string $name) {
         return self::$namespaces[$namespace][$name] ?? null;
     }
@@ -90,9 +93,11 @@ class Actions extends PluginBase {
             $namespace = $namespaces[$selection];
             $form = new MenuForm("Action picker", "Select an action", array_map(function(string $item) {
                 return new MenuOption($item);
-            }, $actions), function(Player $player, int $selection) use ($actions, $namespace, $onComplete): void {
-                $action = $actions[$selection];
-                $onComplete($namespace, $action);
+            }, $actions), function(Player $player, int $selection) use ($actions, $namespace, $onComplete, $onClose): void {
+                $action = self::get($namespace, $actions[$selection]);
+                $action->getParams($player, function(array $params) use ($onComplete, $action) {
+                    $onComplete($action, $params);
+                }, $onClose);
             }, $onClose);
             $player->sendForm($form);
         }, $onClose);
