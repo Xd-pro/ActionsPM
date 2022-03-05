@@ -14,8 +14,6 @@ use pocketmine\Server;
 use pocketmine\world\World;
 use XdPro\ActionsPM\Action;
 
-use function pocketmine\server;
-
 class Teleport extends Action {
 
     public function getParams(Player $player, Closure $onComplete, Closure $onClose): void
